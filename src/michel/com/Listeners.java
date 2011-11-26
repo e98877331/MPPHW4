@@ -22,6 +22,7 @@ import com.facebook.android.FacebookError;
 public class Listeners {
 	
 	static MPPHW4Activity mActivity;
+	public static ArrayList<String> FriendLID;
 
 	
 	public static class LogoutRequestListener implements RequestListener {
@@ -83,6 +84,8 @@ public class Listeners {
 						@Override
 						public void run() {
 							// TODO Auto-generated method stub
+							MPPHW4Activity.mET.setText("ªB¤Í¦W³æ");
+							FriendLID = new ArrayList<String>();
 							ArrayList<String> al = new ArrayList<String>();
 							JSONObject friend;
 							JSONArray friendList;
@@ -95,6 +98,7 @@ public class Listeners {
 									//Log.v("FL",friendList.getJSONObject(i).getString("name"));
 									
 									al.add(friendList.getJSONObject(i).getString("name"));
+									FriendLID.add(friendList.getJSONObject(i).getString("id"));
 									
 								}
 								String[] temp = new String[al.size()];

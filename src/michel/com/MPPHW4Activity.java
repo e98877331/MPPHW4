@@ -1,26 +1,21 @@
 package michel.com;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.MalformedURLException;
+import java.util.HashMap;
+
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.facebook.android.AsyncFacebookRunner;
-import com.facebook.android.AsyncFacebookRunner.RequestListener;
-import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
-import com.facebook.android.Facebook.DialogListener;
-import com.facebook.android.FacebookError;
 import com.facebook.android.R;
 
 public class MPPHW4Activity extends Activity {
@@ -30,9 +25,11 @@ public class MPPHW4Activity extends Activity {
     public static final String[] mPermissions = new String[] {"read_friendlists", "publish_stream"};
     
     public static MPPHW4Activity mActivity;
-    private Button mLoginButton;
     public static ListView mFriendL;
+    public static TextView mET;
     
+    
+    private Button mLoginButton;
     
     private Facebook mFacebook;
     public static AsyncFacebookRunner mAsyncRunner;
@@ -42,15 +39,41 @@ public class MPPHW4Activity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         mActivity = this;
+       
         
+        mFriendL = (ListView)findViewById(R.id.listView1);
         
         mLoginButton = (Button)findViewById(R.id.login);
-        mFriendL = (ListView)findViewById(R.id.listView1);
+        
+        mET = (TextView)findViewById(R.id.TextView1);
+        
        	mFacebook = new Facebook(APP_ID);
        	mAsyncRunner = new AsyncFacebookRunner(mFacebook);
        	
        	
        	mLoginButton.setText(mFacebook.isSessionValid() ? "Logout" : "Login");
+       	
+       	mFriendL.setOnItemClickListener(new OnItemClickListener() {  
+  
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+                
+				String targetID = Listeners.FriendLID.get(arg2).toString();
+				
+				
+				Intent intent = new Intent(); 
+            	intent.setClass(MPPHW4Activity.this, Friend.class); 
+            	Bundle bundle = new Bundle(); 
+            	
+            	bundle.putString("name", mFriendL.getItemAtPosition(arg2).toString());
+            	bundle.putString("ID", targetID);
+            	intent.putExtras(bundle); 
+            	startActivityForResult(intent,0); 
+						
+				//setTitle("¿ï¨ú¤F" + name);
+			}
+		});
 
        	mLoginButton.setOnClickListener(new View.OnClickListener() {
 			
@@ -62,7 +85,7 @@ public class MPPHW4Activity extends Activity {
 	            	mLoginButton.setText("Login");
 	            	mAsyncRunner.logout(mActivity, new Listeners.LogoutRequestListener());
 	            } else {
-	            	mLoginButton.setText("Logout");
+	            	
 	            	mFacebook.authorize(mActivity, mPermissions,
 	                              new Listeners.LoginDialogListener());
 	            }
@@ -77,7 +100,7 @@ public class MPPHW4Activity extends Activity {
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        
+        mLoginButton.setText("Logout");
         Log.v("hehe","on Activity Result");
         //mLoginButton.setText(mFacebook.isSessionValid() ? "Logout" : "Login");
         mFacebook.authorizeCallback(requestCode, resultCode, data);
