@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.facebook.android.AsyncFacebookRunner;
@@ -28,24 +29,27 @@ public class MPPHW4Activity extends Activity {
     public static final String APP_ID = "294859480537391";
     public static final String[] mPermissions = new String[] {"read_friendlists", "publish_stream"};
     
-    private final MPPHW4Activity mActivity = this;
+    public static MPPHW4Activity mActivity;
     private Button mLoginButton;
+    public static ListView mFriendL;
     
     
     private Facebook mFacebook;
-    private AsyncFacebookRunner mAsyncRunner;
+    public static AsyncFacebookRunner mAsyncRunner;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        mActivity = this;
+        
         
         mLoginButton = (Button)findViewById(R.id.login);
-        
+        mFriendL = (ListView)findViewById(R.id.listView1);
        	mFacebook = new Facebook(APP_ID);
        	mAsyncRunner = new AsyncFacebookRunner(mFacebook);
        	
-       	Log.v("onCreate","yaaaaaaaaaaaaaa");
+       	
        	mLoginButton.setText(mFacebook.isSessionValid() ? "Logout" : "Login");
 
        	mLoginButton.setOnClickListener(new View.OnClickListener() {
@@ -54,16 +58,13 @@ public class MPPHW4Activity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				
-				//mLoginButton.setText(mFacebook.isSessionValid() ? "Logout" : "Login");
 	            if (mFacebook.isSessionValid()) {
-	            
-	            	//Log.v("onclick","logout");
-	            	mAsyncRunner.logout(mActivity, new LogoutRequestListener());
+	            	mLoginButton.setText("Login");
+	            	mAsyncRunner.logout(mActivity, new Listeners.LogoutRequestListener());
 	            } else {
-	         
-	            	 // Log.v("onclick","login");
+	            	mLoginButton.setText("Logout");
 	            	mFacebook.authorize(mActivity, mPermissions,
-	                              new LoginDialogListener());
+	                              new Listeners.LoginDialogListener());
 	            }
 				
 			}
@@ -78,62 +79,14 @@ public class MPPHW4Activity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         
         Log.v("hehe","on Activity Result");
-        mLoginButton.setText(mFacebook.isSessionValid() ? "Logout" : "Login");
+        //mLoginButton.setText(mFacebook.isSessionValid() ? "Logout" : "Login");
         mFacebook.authorizeCallback(requestCode, resultCode, data);
         
     }
     
-    public final class LogoutRequestListener implements RequestListener {
+    
+	
 
-        public void onFacebookError(FacebookError e, final Object state) {
-            Log.e("Facebook", e.getMessage());
-            e.printStackTrace();
-        }
-
-        public void onFileNotFoundException(FileNotFoundException e,
-                                            final Object state) {
-            Log.e("Facebook", e.getMessage());
-            e.printStackTrace();
-        }
-
-        public void onIOException(IOException e, final Object state) {
-            Log.e("Facebook", e.getMessage());
-            e.printStackTrace();
-        }
-
-        public void onMalformedURLException(MalformedURLException e,
-                                            final Object state) {
-            Log.e("Facebook", e.getMessage());
-            e.printStackTrace();
-        }
-
-		@Override
-		public void onComplete(String response, Object state) {
-			// TODO Auto-generated method stub
-			
-			Log.v("hehe","logout complete");
-			//Toast.makeText(mActivity, "LOOOOGOUT", Toast.LENGTH_SHORT);
-			
-		}       
-        
-    }
-    private final class LoginDialogListener implements DialogListener {
-        public void onComplete(Bundle values) {
-           // SessionEvents.onLoginSuccess();
-        	
-        	
-        }
-
-        public void onFacebookError(FacebookError error) {
-         //   SessionEvents.onLoginError(error.getMessage());
-        }
-        
-        public void onError(DialogError error) {
-           // SessionEvents.onLoginError(error.getMessage());
-        }
-
-        public void onCancel() {
-           // SessionEvents.onLoginError("Action Canceled");
-        }
-    }
+	
+	
 }
