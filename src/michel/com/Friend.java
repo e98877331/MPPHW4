@@ -17,27 +17,33 @@ import android.widget.TextView;
 
 import com.facebook.android.R;
 
+
 public class Friend extends Activity {
+	
+	public static Friend mFriend;
 
 	Bundle bundle;
-	String ID,name;
+	public String ID,name;
 	
 	ImageView ImageView;
 	TextView FriendName; 
-	
+	public TextView Status; 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.friend);
 		
-		
+		mFriend = this;
 		bundle = this.getIntent().getExtras(); 
 		ID = bundle.getString("ID");
 		name = bundle.getString("name");
 		ImageView = (ImageView)findViewById(R.id.imageView1);
+		Status = (TextView)findViewById(R.id.statusView);
 		Log.v("pricutre","https://graph.facebook.com/" + ID + "/picture");
 		Bitmap pic = getImageBitmap("https://graph.facebook.com/" + ID + "/picture?type=normal");
+		
+		MPPHW4Activity.mAsyncRunner.request(ID+"/feed", new Listeners.SampleRequestListener());
 		
 		ImageView.setImageBitmap(pic);
 		//ImageView.setImageResource(R.drawable.facebook_icon);

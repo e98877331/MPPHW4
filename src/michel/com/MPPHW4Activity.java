@@ -22,7 +22,7 @@ public class MPPHW4Activity extends Activity {
     /** Called when the activity is first created. */
 	
     public static final String APP_ID = "294859480537391";
-    public static final String[] mPermissions = new String[] {"read_friendlists", "publish_stream"};
+    public static final String[] mPermissions = new String[] {"read_friendlists","publish_stream", "read_stream"};
     
     public static MPPHW4Activity mActivity;
     public static ListView mFriendL;
