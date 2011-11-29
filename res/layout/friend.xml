@@ -4,18 +4,18 @@
   android:orientation="vertical"
   android:layout_width="match_parent"
   android:layout_height="match_parent">
-    <ScrollView android:id="@+id/scrollView1" android:layout_width="match_parent" android:layout_height="wrap_content">
+   <!-- -->  <ScrollView android:id="@+id/scrollView1" android:layout_width="match_parent" android:layout_height="wrap_content">-->
         <LinearLayout android:id="@+id/linearLayout3" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout1">
                 <ImageView android:layout_width="50pt" android:id="@+id/imageView1" android:layout_height="50pt" android:src="@drawable/icon"></ImageView>
                 <TextView android:layout_width="wrap_content" android:text="TextView" android:textSize="20pt" android:id="@+id/FriendN" android:layout_height="wrap_content"></TextView>
             </LinearLayout>
-            <EditText android:layout_weight="1" android:layout_width="match_parent" android:id="@+id/editText1" android:layout_height="wrap_content"></EditText>
+            <EditText android:layout_width="match_parent" android:id="@+id/editText1" android:layout_height="wrap_content"></EditText>
             <LinearLayout android:layout_width="match_parent" android:gravity="right" android:layout_height="wrap_content" android:id="@+id/linearLayout2">
-                <Button android:layout_width="wrap_content" android:text="Post" android:id="@+id/button1" android:layout_height="wrap_content"></Button>
+                <Button android:layout_width="wrap_content" android:text="Post" android:id="@+id/postBt" android:layout_height="wrap_content"></Button>
             </LinearLayout>
             <TextView android:id="@+id/statusView" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
         </LinearLayout>
-    </ScrollView>
+  <!----> </ScrollView>-->
     
 </LinearLayout>

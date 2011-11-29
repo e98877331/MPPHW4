@@ -21,8 +21,71 @@ import com.facebook.android.FacebookError;
 
 public class Listeners {
 
+	
+	
+	//protected static final RequestListener PostListener = null;
 	static MPPHW4Activity mActivity;
 	public static ArrayList<String> FriendLID;
+	//protected static RequestListener PostListener;
+	
+	public  static class PostListener implements RequestListener {
+
+		public void onComplete(final String response, final Object state) {
+			
+			
+            
+			MPPHW4Activity.mActivity.runOnUiThread(new Runnable() {
+				// Thread t= new Thread(new Runnable(){
+				@Override
+				public void run() {
+					
+	                 //MPPHW4Activity.mET.
+					
+					//Log.v("FL2", "已傳訊息至"+ Friend.name);
+					try{
+						
+					Thread.sleep(2000);
+					} catch (Exception e)
+					{
+						Log.v("FL2", "catch");
+						e.printStackTrace();
+					}
+					Log.v("FL2", "change back");
+					MPPHW4Activity.mET.setText("朋友名單");
+                       
+
+				}
+			});
+
+			// t.start();
+		}
+
+		@Override
+		public void onIOException(IOException e, Object state) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onFileNotFoundException(FileNotFoundException e,
+				Object state) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onMalformedURLException(MalformedURLException e,
+				Object state) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onFacebookError(FacebookError e, Object state) {
+			// TODO Auto-generated method stub
+
+		}
+	}
 
 	public static class LogoutRequestListener implements RequestListener {
 
@@ -57,6 +120,13 @@ public class Listeners {
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
+					
+					
+					MPPHW4Activity.mFriendL
+					.setAdapter(new ArrayAdapter<String>(
+							MPPHW4Activity.mActivity,
+							android.R.layout.simple_list_item_1,
+							new String[] {}));
 					Toast.makeText(MPPHW4Activity.mActivity, "LOOOOGOUT",
 							Toast.LENGTH_SHORT).show();
 
@@ -180,7 +250,7 @@ public class Listeners {
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
-					Log.v("FL2", "in RUNNNNNNNNNNN");
+					//Log.v("FL2", "in RUNNNNNNNNNNN");
 					// FriendLID = new ArrayList<String>();
 					// ArrayList<String> al = new ArrayList<String>();
 					JSONObject data;
@@ -196,11 +266,11 @@ public class Listeners {
 									.equals("status")) {
 								if (dataList.getJSONObject(i).has("message")) {
 
-									Log.v("JSON",
+									/*Log.v("JSON",
 											dataList.getJSONObject(i)
 													.getJSONObject("from")
 													.getString("id")
-													+ " yaaaaaaaaa");
+													+ " yaaaaaaaaa");*/
 									if (dataList.getJSONObject(i)
 											.getJSONObject("from")
 											.getString("id")
@@ -271,5 +341,7 @@ public class Listeners {
 
 		}
 	}
+	
+
 
 }
